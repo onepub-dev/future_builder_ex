@@ -1,16 +1,22 @@
 # future_builder_ex
 
-A new Flutter project.
+Provides an easier to use verion of FutureBuilder.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ ```dart
+ Widget build(BuildContext contect) {
+  return Consumer<SelectedTeam>(
+      builder: (context, selectedTeam, _) 
+        => FutureBuilderEx<String>(
+            future: () => selectedTeam.teamName,
+            builder: (context, teamName) 
+                => Text('Team: $teamName', color: Colors.white),
+            stackTrace: StackTraceImpl(),
+      ),
+    );
+ }
+ ```
