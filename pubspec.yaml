@@ -1,6 +1,7 @@
 name: future_builder_ex
 version: 1.0.0
 description: An improved version of FutureBuilder
+repository: https://github.com/bsutton/flutter_builder_ex
 environment: 
   sdk: '>=2.12.0 <3.0.0'
 dependencies: 
