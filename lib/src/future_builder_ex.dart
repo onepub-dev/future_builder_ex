@@ -37,21 +37,31 @@ class FutureBuilderEx<T> extends StatefulWidget {
   final ErrorBuilder? errorBuilder;
   final CompletedBuilder<T> builder;
 
-  final Future<T> Function() future;
+  final Future<T> future;
   final T? initialData;
   final String debugLabel;
 
-  const FutureBuilderEx(
-      {Key? key,
-      required this.future,
-      required this.builder,
-      this.initialData,
-      this.waitingBuilder,
-      this.errorBuilder,
-      this.debugLabel = '',
-      required this.stackTrace})
-      : super(key: key);
-
+  /// The [waitingBuilder] is called when the UI needs to be
+  /// rendered but the [future] hasn't completed.
+  /// When the [builder] is called it will be passed
+  /// the [BuildContext] and the current data.
+  /// The first time the build is called it will be passed
+  /// the [initialData] with later calls being passed
+  /// the data returned via the [future].
+  /// The [errorBuilder] is called when the [future] returns
+  /// an error and is passed a [BuildContext] and the
+  /// error object thrown by the [future].
+  ///
+  const FutureBuilderEx({
+    Key? key,
+    required this.future,
+    required this.builder,
+    required this.stackTrace,
+    this.initialData,
+    this.waitingBuilder,
+    this.errorBuilder,
+    this.debugLabel = '',
+  }) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return FutureBuilderExState<T>();
@@ -67,14 +77,13 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
   @override
   void initState() {
     super.initState();
-    var future = widget.future();
-    future.whenComplete(() => completed = true);
+    widget.future.whenComplete(() => completed = true);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<T>(
-        future: widget.future().then((t) {
+        future: widget.future.then((t) {
           return t;
         },
             // ignore: avoid_types_on_closure_parameters
