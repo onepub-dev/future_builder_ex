@@ -13,7 +13,7 @@ import 'tick_builder.dart';
 
 export 'package:stacktrace_impl/stacktrace_impl.dart';
 
-typedef CompletedBuilder<T> = Widget Function(BuildContext context, T data);
+typedef CompletedBuilder<T> = Widget Function(BuildContext context, T? data);
 typedef ContextBuilder = Widget Function(BuildContext context);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object error);
 
@@ -115,14 +115,14 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
           if (!completed) {
             builder = callWaitingBuilder(context);
           } else {
-            builder = widget.builder(context, data.data!);
+            builder = widget.builder(context, data.data);
           }
           break;
         case ConnectionState.active:
-          builder = widget.builder(context, data.data!);
+          builder = widget.builder(context, data.data);
           break;
         case ConnectionState.done:
-          builder = widget.builder(context, data.data!);
+          builder = widget.builder(context, data.data);
           break;
       }
     }
