@@ -1,3 +1,6 @@
+# 1.1.3
+- Fixed a bug were an exception is thrown when the initialData was null.
+
 # 1.1.2
 - Improved the stack trace we log when we the builder throws.
 
