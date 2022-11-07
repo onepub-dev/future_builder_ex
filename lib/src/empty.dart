@@ -4,7 +4,6 @@
  * Written by Brett Sutton <bsutton@onepub.dev>, Jan 2022
  */
 
-
 import 'package:flutter/cupertino.dart';
 
 /// A convenience widget that returns a container

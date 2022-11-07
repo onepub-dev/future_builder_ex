@@ -1,3 +1,8 @@
+# 1.1.1
+- BUG: fixed call to Logger().d as we were passing the stacktrace as the wrong argument.
+- removed the linux and web directories as we have no platform specific code.
+- remove the android and ios directories as we don't have any platform specific code so they are not needed. Exported StrackTraceImpl as its required by the api.
+
 # 1.1.0
 Removed the android and ios directories as we have no platform specific code.
 Exported StackTraceImpl

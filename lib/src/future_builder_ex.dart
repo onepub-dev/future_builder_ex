@@ -93,7 +93,7 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
           }
           // ignore: avoid_catches_without_on_clauses
           catch (e, s) {
-            Logger().d(e.toString(), s);
+            Logger().d(e.toString(), e.toString(), s);
             rethrow;
           }
         });
