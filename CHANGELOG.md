@@ -1,3 +1,6 @@
+# 2.0.0
+- FIXED: future_builder_ex was call the passed future function multiple times.  We changed the signature to just take a future so it is called only once during initialisation of the future builder .
+
 # 1.1.3
 - Fixed a bug were an exception is thrown when the initialData was null.
 
