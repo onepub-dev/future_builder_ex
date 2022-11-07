@@ -1,3 +1,6 @@
+# 1.1.2
+- Improved the stack trace we log when we the builder throws.
+
 # 1.1.1
 - BUG: fixed call to Logger().d as we were passing the stacktrace as the wrong argument.
 - removed the linux and web directories as we have no platform specific code.
