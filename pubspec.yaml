@@ -1,6 +1,5 @@
 name: future_builder_ex
 version: 2.0.1
-publish_to: https://onepub.dev/api/jbbxpsdavu/
 description: An improved version of FutureBuilder
 repository: https://github.com/onepub-dev/future_builder_ex
 environment: 
