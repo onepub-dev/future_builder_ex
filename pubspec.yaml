@@ -1,18 +1,18 @@
 name: future_builder_ex
-version: 2.1.0
+version: 2.1.1
 description: An improved version of FutureBuilder
 repository: https://github.com/onepub-dev/future_builder_ex
 environment: 
   sdk: '>=2.18.0 <3.0.0'
 dependencies: 
-  flutter: 
-    sdk: flutter
   logger: ^1.1.0
   stack_trace: ^1.0.0
+  flutter: 
+    sdk: flutter
 dev_dependencies: 
   fake_async: ^1.0.0
+  lint_hard: ^2.0.0
   flutter_test: 
     sdk: flutter
-  lint_hard: ^2.0.0
 flutter: 
   uses-material-design: true

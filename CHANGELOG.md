@@ -1,7 +1,8 @@
-# 2.1.0
-- Released 2.0.1.
+# 2.1.1
+- Fixed the readme.
+- lint fixes.
 
-# 2.0.1
+# 2.1.0
 - restored the future parameter to be a function rather than a future as the future needs to be a call back. Resolved the problem of calling the future multiple times by calling it once in initState and then saving the resulting future. Fixed the error handling logic so that the errorBuilder is called as expected.
 
 # 2.0.0
