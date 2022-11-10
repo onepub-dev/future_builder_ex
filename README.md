@@ -20,11 +20,13 @@ should be tied to your top level application widget.
 Your future function may contain multiple awaits:
 
 ```dart
-        FutureBuilderEx<String>(
-            future: () => selectedTeam.teamName,
-            builder: (context, teamName) 
-                => Text('Team: $teamName', color: Colors.white),
-            stackTrace: Trace.current(),
+        FutureBuilderEx<Team>(
+            future: () => selectedTeam,
+            initData: "Select Team",
+            waitBuilder: (context) => Text('Loading'),
+            errorBuilder: (error) => Text(error),
+            builder: (context, team) 
+                => Text('Team: ${team.name}', color: Colors.white),
       ),
     );
 ```
@@ -58,15 +60,6 @@ If you don't provide an [errorBuilder] and the future throws an error then
 a generic message 'An error occured: XXXX' will be displayed.
 
 
-
-### stack repair
-When the future returns an error FutureBuilderEx performs a stack repair on the
-async call so that you get a clean stack trace showing where the 
-FutureBuilderEx was created from and where the error was thrown from.
-Errors ar
-
-
-
 ## Usage
 
 
@@ -74,13 +67,12 @@ Errors ar
  Widget build(BuildContext contect) {
   return Consumer<SelectedTeam>(
       builder: (context, selectedTeam, _) 
-        => FutureBuilderEx<String>(
-            future: () => selectedTeam.teamName,
-            waitingBuilder: (context) => Text('Loading'),
+        => FutureBuilderEx<SelectedTeam>(
+            future: () => selectedTeam,
+            waitingBuilder: (context) => Text('Select your favourite team'),
             builder: (context, teamName) 
-                => Text('Team: $teamName', color: Colors.white),
-            errorBuilder:
-            stackTrace: StackTraceImpl(),
+                => Text('Selected Team: ${team.name}', color: Colors.white),
+            errorBuilder: (error) => Text('Oops: $error')
       ),
     );
  }

@@ -26,7 +26,6 @@ typedef SubscribeTo<S> = void Function(S type);
 ///        future: () => selectedTeam.teamName,
 ///        builder: (context, teamName) => NJTextSubheading('Team: $teamName'
 ///           , color: Colors.white),
-///        stackTrace: StackTraceImpl(),
 ///      ),
 ///    );
 /// ```
