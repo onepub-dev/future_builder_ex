@@ -10,7 +10,9 @@ void main() {
             body: FutureBuilder<void>(
       future: delayedError(),
       builder: (context, asyncData) {
-        if (asyncData.hasError) print('Error seen');
+        if (asyncData.hasError) {
+          print('Error seen');
+        }
         return const Text('hi');
       },
     ))));
