@@ -1,9 +1,14 @@
+// ignore_for_file: comment_references
+
 /* Copyright (C) S. Brett Sutton - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Written by Brett Sutton <bsutton@onepub.dev>, Jan 2022
  */
 
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 typedef TickerBuilder = Widget Function(BuildContext context, int index);
@@ -18,33 +23,30 @@ typedef OnTick = void Function(int index);
 /// after which it is reset to zero.
 /// The default limit is null which means no limit.
 /// The build is called each [interval] period.
-///
 class TickBuilder extends StatefulWidget {
-  final TickerBuilder _builder;
-  final Duration _interval;
-  final int _limit;
-  final bool _active;
-
   /// Create a TickBuilder
   /// [interval] is the time between each tick. We could the [builder]
   ///  for each tick.
   /// [limit] the tick count will reset when we hit the limit.
   /// If limit is null then it will increment forever.
   /// If [active] is false the tick builder will stop ticking.
-  TickBuilder(
+  const TickBuilder(
       {required TickerBuilder builder,
       required Duration interval,
+      super.key,
       int limit = -1,
       bool active = true})
       : _builder = builder,
         _interval = interval,
         _limit = limit,
         _active = active;
+  final TickerBuilder _builder;
+  final Duration _interval;
+  final int _limit;
+  final bool _active;
 
   @override
-  State<StatefulWidget> createState() {
-    return _TickBuilderState();
-  }
+  State<StatefulWidget> createState() => _TickBuilderState();
 }
 
 class _TickBuilderState extends State<TickBuilder> {
@@ -57,12 +59,11 @@ class _TickBuilderState extends State<TickBuilder> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return widget._builder(context, tickCount);
-  }
+  Widget build(BuildContext context) => widget._builder(context, tickCount);
 
+  Timer? _timer;
   void queueTicker() {
-    Future.delayed(widget._interval, () {
+    _timer = Timer(widget._interval, () {
       if (mounted && widget._active) {
         setState(() {
           tickCount++;
@@ -73,5 +74,19 @@ class _TickBuilderState extends State<TickBuilder> {
         queueTicker();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(IntProperty('tickCount', tickCount));
   }
 }
