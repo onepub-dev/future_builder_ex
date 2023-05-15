@@ -5,14 +5,14 @@ repository: https://github.com/onepub-dev/future_builder_ex
 environment: 
   sdk: '>=2.19.0 <4.0.0'
 dependencies: 
-  logger: ^1.1.0
-  stack_trace: ^1.0.0
   flutter: 
     sdk: flutter
+  logger: ^1.1.0
+  stack_trace: ^1.0.0
 dev_dependencies: 
   fake_async: ^1.0.0
-  lint_hard: ^4.0.0
   flutter_test: 
     sdk: flutter
+  lint_hard: ^4.0.0
 flutter: 
   uses-material-design: true

@@ -176,7 +176,7 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
     if (widget.errorBuilder != null) {
       return widget.errorBuilder!(context, error);
     } else {
-      return Center(child: Text('An error occured: ${error.toString()}.'));
+      return Center(child: Text('An error occured: $error.'));
     }
   }
 
