@@ -1,3 +1,6 @@
+# 3.0.0
+- upgraded to dart 3.x
+
 # 2.1.1
 - Fixed the readme.
 - lint fixes.
