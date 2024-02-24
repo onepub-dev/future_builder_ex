@@ -152,15 +152,15 @@ Widget build(BuildContext context, Completer<bool> buildCalled) {
   return const Text('hoi');
 }
 
-Future<void> delayedError() async {
-  late final Timer timer;
-  print('delayed error started');
-  timer = Timer.periodic(const Duration(seconds: 1), (t) {
-    print('in timer');
-    timer.cancel();
-    throw Exception('Something bad happened');
-  });
-}
+// Future<void> delayedError() async {
+//   late final Timer timer;
+//   print('delayed error started');
+//   timer = Timer.periodic(const Duration(seconds: 1), (t) {
+//     print('in timer');
+//     timer.cancel();
+//     throw Exception('Something bad happened');
+//   });
+// }
 
 Future<bool> networkFuture() => Future.delayed(const Duration(seconds: 1), () {
       throw Exception('Something bad happened');

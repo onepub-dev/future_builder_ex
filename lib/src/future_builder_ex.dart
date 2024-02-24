@@ -126,7 +126,7 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
       return _loadBuilder(context, data);
       // ignore: avoid_catches_without_on_clauses
     } catch (e, s) {
-      Logger().d(e.toString(), e.toString(), s);
+      Logger().d(e.toString(), error: e, stackTrace: s);
       rethrow;
     }
   }

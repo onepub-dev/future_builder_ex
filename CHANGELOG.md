@@ -1,3 +1,7 @@
+# 3.1.0
+- completed dart 3.x upgrade.
+- upgraded logger.
+
 # 3.0.0
 - upgraded to dart 3.x
 
