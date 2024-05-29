@@ -1,3 +1,8 @@
+# 4.0.0
+- BREAKING the 'future' arguement to FutureBuilderEx is now a Future rather than
+a function that returns a futre.  This is to fix a bug where
+the builder wouldn't rebuild when the future is replaced.
+
 # 3.1.0
 - completed dart 3.x upgrade.
 - upgraded logger.

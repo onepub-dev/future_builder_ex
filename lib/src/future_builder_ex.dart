@@ -1,9 +1,3 @@
-/* Copyright (C) S. Brett Sutton - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Brett Sutton <bsutton@onepub.dev>, Jan 2022
- */
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -23,7 +17,7 @@ typedef SubscribeTo<S> = void Function(S type);
 /// ```dart
 ///  return Consumer<SelectedTeam>(
 ///      builder: (context, selectedTeam, _) => FutureBuilderEx<String>(
-///        future: () => selectedTeam.teamName,
+///        future: selectedTeam.teamName,
 ///        builder: (context, teamName) => NJTextSubheading('Team: $teamName'
 ///           , color: Colors.white),
 ///      ),
@@ -68,7 +62,7 @@ class FutureBuilderEx<T> extends StatefulWidget {
   final ErrorBuilder? errorBuilder;
   final CompletedBuilder<T> builder;
 
-  final Future<T> Function() future;
+  final Future<T> future;
   final T? initialData;
   final String debugLabel;
 
@@ -79,7 +73,7 @@ class FutureBuilderEx<T> extends StatefulWidget {
     super.debugFillProperties(properties);
     properties
       ..add(StringProperty('debugLabel', debugLabel))
-      ..add(ObjectFlagProperty<Future<T> Function()>.has('future', future))
+      ..add(DiagnosticsProperty<Future<T>>('future', future))
       ..add(ObjectFlagProperty<CompletedBuilder<T>>.has('builder', builder))
       ..add(ObjectFlagProperty<ErrorBuilder?>.has('errorBuilder', errorBuilder))
       ..add(ObjectFlagProperty<WaitingBuilder<T>?>.has(
@@ -92,32 +86,21 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
   // set to true once the future has completed.
   bool completed = false;
 
-  late Future<T> stateFuture;
+  // late Future<T> stateFuture;
 
   @override
   void initState() {
     super.initState();
-    unawaited(_initialiseFuture());
   }
 
-  Future<void> _initialiseFuture() async {
-    try {
-      final indirect = Completer<T>();
-      stateFuture = indirect.future;
-      unawaited(widget.future().then(indirect.complete).onError((e, s) {
-        indirect.completeError(e ?? Exception('Unknown error'), s);
-      }));
-      await stateFuture.whenComplete(() => setState(() => completed = true));
-      // ignore: avoid_catches_without_on_clauses
-    } catch (e) {
-      /// This error is handled in the above indirect.completeError
-      /// so we suppress it here.
-    }
-  }
+  // void _initialiseFuture() {
+  //   stateFuture = widget.future;
+  //   stateFuture.whenComplete(() => setState(() => completed = true));
+  // }
 
   @override
   Widget build(BuildContext context) => FutureBuilder<T>(
-      future: stateFuture,
+      future: widget.future,
       initialData: widget.initialData,
       builder: _handleBuilder);
 
@@ -201,8 +184,6 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty<Future<T>>('future', stateFuture))
-      ..add(DiagnosticsProperty<bool>('completed', completed));
+    properties.add(DiagnosticsProperty<bool>('completed', completed));
   }
 }
