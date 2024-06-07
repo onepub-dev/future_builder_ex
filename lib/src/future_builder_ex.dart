@@ -57,7 +57,7 @@ class FutureBuilderEx<T> extends StatefulWidget {
     this.errorBuilder,
     this.debugLabel = '',
   });
-  //Future args
+
   final WaitingBuilder<T>? waitingBuilder;
   final ErrorBuilder? errorBuilder;
   final CompletedBuilder<T> builder;
@@ -68,6 +68,7 @@ class FutureBuilderEx<T> extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => FutureBuilderExState<T>();
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
@@ -83,20 +84,20 @@ class FutureBuilderEx<T> extends StatefulWidget {
 }
 
 class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
-  // set to true once the future has completed.
-  bool completed = false;
-
-  // late Future<T> stateFuture;
-
   @override
   void initState() {
     super.initState();
   }
 
-  // void _initialiseFuture() {
-  //   stateFuture = widget.future;
-  //   stateFuture.whenComplete(() => setState(() => completed = true));
-  // }
+  @override
+  void didUpdateWidget(covariant FutureBuilderEx<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.future != oldWidget.future) {
+      // force a rebuild as the future has changed.
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) => FutureBuilder<T>(
@@ -104,9 +105,9 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
       initialData: widget.initialData,
       builder: _handleBuilder);
 
-  Widget _handleBuilder(BuildContext context, AsyncSnapshot<T> data) {
+  Widget _handleBuilder(BuildContext context, AsyncSnapshot<T> snapshot) {
     try {
-      return _loadBuilder(context, data);
+      return _loadBuilder(context, snapshot);
       // ignore: avoid_catches_without_on_clauses
     } catch (e, s) {
       Logger().d(e.toString(), error: e, stackTrace: s);
@@ -122,23 +123,16 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
     } else {
       switch (snapshot.connectionState) {
         case ConnectionState.none:
-          if (widget.initialData == null) {
-            builder = _callWaitingBuilder(context);
-          } else {
-            builder = widget.builder(context, widget.initialData);
-          }
+          builder = widget.initialData != null
+              ? widget.builder(context, widget.initialData)
+              : _callWaitingBuilder(context);
           break;
         case ConnectionState.waiting:
-          final data = completed ? snapshot.data : widget.initialData;
-          if (!completed && data == null) {
-            builder = _callWaitingBuilder(context);
-          } else {
-            builder = widget.builder(context, data);
-          }
+          builder = snapshot.data != null
+              ? widget.builder(context, snapshot.data)
+              : _callWaitingBuilder(context);
           break;
         case ConnectionState.active:
-          builder = widget.builder(context, snapshot.data);
-          break;
         case ConnectionState.done:
           builder = widget.builder(context, snapshot.data);
           break;
@@ -147,7 +141,7 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
     return builder;
   }
 
-  Widget _callWaitingBuilder(BuildContext contect) {
+  Widget _callWaitingBuilder(BuildContext context) {
     if (widget.waitingBuilder != null) {
       return widget.waitingBuilder!(context);
     } else {
@@ -159,7 +153,7 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
     if (widget.errorBuilder != null) {
       return widget.errorBuilder!(context, error);
     } else {
-      return Center(child: Text('An error occured: $error.'));
+      return Center(child: Text('An error occurred: $error.'));
     }
   }
 
@@ -179,11 +173,5 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
             return const Empty();
           }
         });
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<bool>('completed', completed));
   }
 }
