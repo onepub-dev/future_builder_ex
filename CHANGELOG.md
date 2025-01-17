@@ -1,5 +1,11 @@
+# 5.0.0
+BREAKING:
+- removed the type from WaitingBuilder as it is not used.
+- upgraded to lint_hard 5.0
+- added leadingPadding to match other fields.
+
 # 4.0.0
-- BREAKING the 'future' arguement to FutureBuilderEx is now a Future rather than
+- BREAKING the 'future' argument to FutureBuilderEx is now a Future rather than
 a function that returns a futre.  This is to fix a bug where
 the builder wouldn't rebuild when the future is replaced.
 
