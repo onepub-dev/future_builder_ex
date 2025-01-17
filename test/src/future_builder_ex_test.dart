@@ -168,6 +168,7 @@ Future<bool> networkFuture = Future.delayed(const Duration(seconds: 1), () {
 
 Future<void> instantFuture = Future.value();
 
+// ignore: unreachable_from_main
 Future<void> errorFuture() async {
   final immediateError = Completer<void>()
 

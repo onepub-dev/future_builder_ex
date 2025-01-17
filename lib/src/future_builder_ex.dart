@@ -8,7 +8,7 @@ import 'empty.dart';
 import 'tick_builder.dart';
 
 typedef CompletedBuilder<T> = Widget Function(BuildContext context, T? data);
-typedef WaitingBuilder<T> = Widget Function(BuildContext context);
+typedef WaitingBuilder = Widget Function(BuildContext context);
 typedef ErrorBuilder = Widget Function(BuildContext context, Object error);
 
 typedef SubscribeTo<S> = void Function(S type);
@@ -58,7 +58,7 @@ class FutureBuilderEx<T> extends StatefulWidget {
     this.debugLabel = '',
   });
 
-  final WaitingBuilder<T>? waitingBuilder;
+  final WaitingBuilder? waitingBuilder;
   final ErrorBuilder? errorBuilder;
   final CompletedBuilder<T> builder;
 
@@ -77,7 +77,7 @@ class FutureBuilderEx<T> extends StatefulWidget {
       ..add(DiagnosticsProperty<Future<T>>('future', future))
       ..add(ObjectFlagProperty<CompletedBuilder<T>>.has('builder', builder))
       ..add(ObjectFlagProperty<ErrorBuilder?>.has('errorBuilder', errorBuilder))
-      ..add(ObjectFlagProperty<WaitingBuilder<T>?>.has(
+      ..add(ObjectFlagProperty<WaitingBuilder?>.has(
           'waitingBuilder', waitingBuilder))
       ..add(DiagnosticsProperty<T?>('initialData', initialData));
   }
@@ -126,16 +126,13 @@ class FutureBuilderExState<T> extends State<FutureBuilderEx<T>> {
           builder = widget.initialData != null
               ? widget.builder(context, widget.initialData)
               : _callWaitingBuilder(context);
-          break;
         case ConnectionState.waiting:
           builder = snapshot.data != null
               ? widget.builder(context, snapshot.data)
               : _callWaitingBuilder(context);
-          break;
         case ConnectionState.active:
         case ConnectionState.done:
           builder = widget.builder(context, snapshot.data);
-          break;
       }
     }
     return builder;
