@@ -32,6 +32,28 @@ Your future function may contain multiple awaits:
 ```
 
 
+# Sponsored by OnePub
+Help support FutureBuilderEx by supporting [OnePub](https://onepub.dev), the private dart repository.
+OnePub allows you to privately share dart packages between your own projects or with colleagues.
+Try it for free and publish your first private package in seconds.
+
+https://onepub.dev
+
+Publish a private package in six commands:
+```bash
+dart pub global activate onepub
+onepub login
+flutter create -t package mypackage
+cd mypackage
+onepub pub private
+dart pub publish
+```
+You can now add your private package to any app
+```bash
+onepub pub add mypackage
+```
+
+
 ## Builders
 FutureBuilderEx allows you to provide three builders. The [waitingBuilder] 
 and [errorBuilder] are optional but we recommend that you provide the
